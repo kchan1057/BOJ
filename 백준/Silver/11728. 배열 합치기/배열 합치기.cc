@@ -1,6 +1,4 @@
 #include <bits/stdc++.h>
-#define X first
-#define Y second
 using namespace std;
 int A[1000001], B[1000001], C[2000002];
 int main(void)
@@ -12,24 +10,16 @@ int main(void)
     for(int i = 0; i < a; i++) cin >> A[i];
     for(int j = 0; j < b; j++) cin >> B[j];
 
-    int aindx = 0, bindx = 0, t = 0;
+    int aindx = 0, bindx = 0;
 
-    while(aindx < a && bindx < b)
+    for(int i = 0; i < a + b; i++)
     {
-        if(A[aindx] <= B[bindx])
-            C[t++] = A[aindx++];
-        else
-            C[t++] = B[bindx++];
+        if(aindx == a) C[i] = B[bindx++];
+        else if(bindx == b) C[i] = A[aindx++];
+        else if(A[aindx] <= B[bindx]) C[i] = A[aindx++];
+        else C[i] = B[bindx++];
     }
-
-    while(aindx < a)
-        C[t++] = A[aindx++];
-
-    while(bindx < b)
-        C[t++] = B[bindx++];
-   
-    
-    for(int i = 0; i < c; i++)
+    for(int i = 0; i < a+b; i++)
         cout << C[i] << " ";
     return 0;
 }
