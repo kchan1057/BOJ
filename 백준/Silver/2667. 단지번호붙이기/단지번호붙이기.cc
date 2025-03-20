@@ -1,57 +1,47 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <algorithm>
+#include <queue>
+#include <vector>
 #define X first
 #define Y second
 using namespace std;
-int board[27][27];
-bool vis[27][27];
-int arr[500];
-int dx[4] = {1, 0, -1, 0};
-int dy[4] = {0, 1, 0, -1};
-int main(void)
-{
-    ios::sync_with_stdio(0);
-    cin.tie(0);
-    int t_case = 0;
-    int n; cin >> n;
-    int num = 0;
-    for(int i = 0; i < n; i++) 
-    {
-        string row;
-        cin >> row;
-        for(int j = 0; j < n; j++)
-            board[i][j] = row[j] - '0';
+int dx[4] = {1, -1, 0, 0};
+int dy[4] = {0, 0, 1, -1};
+char board[27][27];
+bool check[27][27];
+int main(void){
+    int k; cin >> k; vector<int> vc;
+    for(int i = 0; i < k; i++){
+        string st; cin >> st;
+        for(int j = 0; j < st.size(); j++) board[i][j] = st[j];
     }
     queue<pair<int, int>> Q;
-    for(int i = 0; i < n; i++)
-    {
-        for(int j = 0; j < n; j++)
-        {
-            if(vis[i][j] || board[i][j] != 1) continue;
-            num++;
-            vis[i][j] = 1;
+    int count_dan = 0, count_house;
+    for(int i = 0; i < k; i++){
+        for(int j = 0; j < k; j++){
+            if(board[i][j] == '0' || check[i][j]) continue;
             Q.push({i, j});
-            int area = 0;
-            while(!Q.empty())
-            {
-                area++;
-                pair<int, int> cur = Q.front(); Q.pop();
-                for(int dir = 0; dir < 4; dir++)
-                {
-                    int nx = cur.X + dx[dir];
-                    int ny = cur.Y + dy[dir];
-                    if(nx < 0 || nx >= n || ny < 0 || ny >= n) continue;
-                    if(vis[nx][ny] || board[nx][ny] != 1) continue;
-                    vis[nx][ny] = 1;
+            check[i][j] = true;
+            count_dan++;
+            while(!Q.empty()){
+                count_house++;
+                auto cur = Q.front(); Q.pop();
+                for(int i = 0; i < 4; i++){
+                    int nx = dx[i] + cur.X;
+                    int ny = dy[i] + cur.Y;
+
+                    if(nx < 0 || nx >= k || ny < 0 || ny >= k) continue;
+                    if(board[nx][ny] == '0' || check[nx][ny]) continue;
                     Q.push({nx, ny});
+                    check[nx][ny] = true;
                 }
             }
-            arr[t_case] = area;
-            t_case++;
+            vc.push_back(count_house);
+            count_house = 0;
         }
     }
-    sort(arr, arr + t_case);
-    cout << num << '\n';
-    for(int i = 0; i <num; i++)
-        cout << arr[i] << '\n';
-    return 0;
+
+    sort(vc.begin(), vc.end());
+    cout << count_dan << '\n';
+    for(int i = 0; i < vc.size(); i++) cout << vc[i] << '\n';
 }
