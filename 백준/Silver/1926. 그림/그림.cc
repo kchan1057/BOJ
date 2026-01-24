@@ -32,7 +32,7 @@ int main(){
           int nx = cur.X + dx[dir];
           int ny = cur.Y + dy[dir]; // nx, ny에 dir에서 정한 방향의 인접한 칸의 좌표가 들어감
           if(nx < 0 || nx >= n || ny < 0 || ny >= m) continue; // 범위 밖일 경우 넘어감
-          if(vis[nx][ny] || board[nx][ny] != 1) continue; // 이미 방문한 칸이거나 파란 칸이 아닐 경우
+          if(vis[nx][ny] || board[nx][ny] == 0) continue; // 이미 방문한 칸이거나 파란 칸이 아닐 경우
           vis[nx][ny] = 1; // (nx, ny)를 방문했다고 명시
           Q.push({nx,ny});
         }
